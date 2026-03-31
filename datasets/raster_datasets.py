@@ -6,7 +6,7 @@ import numpy as np
 
 class S2S1DSMTileFolderDataset(Dataset):
     """
-    Dataset that reads tiled Sentinel-2 + Sentinel-1 + DSM chips from folders.
+    Dataset that reads tiled Sentinel-2 + Sentinel-1 + CG Fraction chips from folders.
 
     Expected structure:
       root/
@@ -14,7 +14,7 @@ class S2S1DSMTileFolderDataset(Dataset):
           x0085_y0059_2018.tif        (C=10, H=256, W=256)
         S1_0608/
           x0085_y0059_2018.tif        (C=2,  H=128, W=128)  [VH,VV]
-        BDOM/
+        CG/
           x0085_y0059_2018.tif        (C=1,  H=256, W=256)
     """
 
@@ -48,7 +48,7 @@ class S2S1DSMTileFolderDataset(Dataset):
         self.s1_use_log1p = bool(s1_use_log1p)
         self.transforms = transforms
 
-        # build list of triplets: require S2, S1, DSM all exist with same name
+        # build list of triplets: require S2, S1, CG all exist with same name
         self.files = sorted([
             f for f in self.s2_dir.glob("*.tif")
             if (self.s1_dir / f.name).exists() and (self.dsm_dir / f.name).exists()
@@ -87,14 +87,14 @@ class S2S1DSMTileFolderDataset(Dataset):
         if self.s1_use_log1p:
             s1 = torch.log1p(torch.clamp(s1, min=0.0))
 
-        # Optional: add log-ratio channel (often helps)
-        # VH=band0, VV=band1 after your convention
+        # Optional: add log-ratio channel 
+  
         vh = s1[0:1]
         vv = s1[1:2]
         ratio = vh - vv  # in log space: log(VH/VV)
         s1 = torch.cat([s1, ratio], dim=0)  # now (3,128,128)
 
-        # ---- LABEL (fractions) ----
+        # ---- LABEL ----
         dsm = torch.from_numpy(self._read(dsm_path)).float()
 
         if dsm.ndim == 2:

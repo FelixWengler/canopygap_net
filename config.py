@@ -2,7 +2,7 @@
 # Training Settings
 # -----------------------
 
-# Folder-based train/val inputs (expected subfolders: S2/ S1 and BDOM/)
+# Folder-based train/val inputs (expected subfolders: S2/ S1 and CG/)
 TRAIN_ROOT = "/data/ahsoka/eocp/wengler/ground_fractions/bdom_grfra/chips/train"
 VAL_ROOT   = "/data/ahsoka/eocp/wengler/ground_fractions/bdom_grfra/chips/val"
 

@@ -46,11 +46,11 @@ logging.info(f"Using device: {device}")
 # TRAIN_ROOT/
 #   S1/*.tif
 #   S2/*.tif
-#   BDOM/*.tif
+#   CG/*.tif
 # VAL_ROOT/
 #   S1/*.tif
 #   S2/*.tif
-#   BDOM/*.tif
+#   CG/*.tif
 train_ds = S2S1DSMTileFolderDataset(config.TRAIN_ROOT)
 val_ds   = S2S1DSMTileFolderDataset(config.VAL_ROOT)
 
