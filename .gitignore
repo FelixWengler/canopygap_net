@@ -2,5 +2,7 @@ pred/
 models/log/
 models/output/
 
+__pycache__/
+
 datasets/make_npz.py
 datasets/npz_dataset.py
